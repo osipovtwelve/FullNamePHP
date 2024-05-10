@@ -51,7 +51,7 @@ function getShortName($fname)
     // Присваиваем Фамилию переменной $fam
     $fam = "$fname[0]";
     // Сокращаем значение переменной $fam до одного символа
-    $fam = mb_substr($fam[0], 0, 1);
+    $fam = mb_substr($fam, 0, 1);
     // Присваиваем переменной $sokr Имя и сокращенную фамилию из переменной $fam
     $sokr = "$fname[1] $fam.";
     echo $sokr;
