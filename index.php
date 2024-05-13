@@ -39,6 +39,7 @@ function getPartsFromFullname($check)
     // Запуск функции
     getFullnameFromParts($fname);
     getShortName($fname);
+    getGenderFromName($fname);
     // Вывод разделенного элементов массива
     print_r($fname);
 }
@@ -55,4 +56,46 @@ function getShortName($fname)
     // Присваиваем переменной $sokr Имя и сокращенную фамилию из переменной $fam
     $sokr = "$fname[1] $fam.";
     echo $sokr;
+}
+
+// Функция определения пола по ФИО
+
+function getGenderFromName($fname) // внутри функции делим ФИО на составляющие с помощью функции getPartsFromFullname;
+// Она уже разделена в функции getPartsFromFullname просто передаем аргумент $fname
+{
+    $gender = 0; // изначально «суммарный признак пола» считаем равным 0;
+    $gender1 = "Мужской";
+    $gender2 = "Женский";
+
+    // если присутствует признак женского пола — отнимаем единицу.
+    if (str_ends_with($fname[2], 'вна')) {
+        $gender--;
+    } elseif (str_ends_with($fname[1], 'а')) {
+        $gender--;
+    } elseif (str_ends_with($fname[0], 'ва')) {
+        $gender--;
+    }
+    // если присутствует признак мужского пола — прибавляем единицу;
+    if (str_ends_with($fname[2], 'ич')) {
+        $gender++;
+    } elseif (str_ends_with($fname[1], 'й') || str_ends_with($fname[1], 'н')) {
+        $gender++;
+    } elseif (str_ends_with($fname[0], 'в')) {
+        $gender++;
+    }
+    // после проверок всех признаков, если «суммарный признак пола» меньше нуля — возвращаем -1 (женский пол);
+    if ($gender < 0) {
+        echo $gender2;
+        echo $gender; // Проверка что $gender < 0
+    }
+    // после проверок всех признаков, если «суммарный признак пола» больше нуля — возвращаем 1 (мужской пол); 
+    elseif ($gender > 0) {
+        echo $gender1;
+        echo $gender; // Проверка что $gender > 0
+    }
+    // после проверок всех признаков, если «суммарный признак пола» равен 0 — возвращаем 0 (неопределенный пол).
+    elseif ($gender == 0) {
+        echo "Неопределенный пол";
+        echo $gender; // Проверка что $gender == 0
+    }
 }
